@@ -2,7 +2,7 @@ from math import inf as infinity
 from Settings.gamesettings import X, O, EMPTY
 
 # ALPHA BETA PRUNING SETTINGS
-MAX_TREE_DEPTH_LEVEL = 4
+MAX_TREE_DEPTH_LEVEL = 2
 EXPANSION_RANGE = 2 # FOR GENERATING POSSIBLE MOVES
 
 
@@ -15,10 +15,10 @@ SCORE_1_UNBLOCKED_PIECES = 11
 
 SCORE_5_BLOCKED_PIECES = 1_000_009 # WIN
 SCORE_4_BLOCKED_PIECES = 6_007
-SCORE_3_BLOCKED_PIECES = 185
+SCORE_3_BLOCKED_PIECES = 1085
 
 # CHECK BEFORE ALPHA BETA PRUNING
-ENABLE_HIGH_IMPACT_MOVE = True 
+ENABLE_HIGH_IMPACT_MOVE = True
 # lower this setting value could reduce time AI thinking but also reduce move quality
 HIGH_IMPACT_MOVE_THRESHOLD = 15440 #15440
 # a high impact move is a move which could lead to a win or great advantage

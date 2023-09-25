@@ -153,7 +153,7 @@ class ABPruningAI:
         if(state.board == game_settings.EMPTY_BOARD):
             return(int(game_settings.BOARD_ROW_COUNT / 2), int(game_settings.BOARD_COL_COUNT / 2))
         # HUMAN move first
-        possible_moves = State.generate_possible_moves(state.board, expansion_range)
+        possible_moves = State.generate_possible_moves(state.board, 0)
         return random.choice(possible_moves)
 
     def alpha_beta(current_node: MinimaxNode, depth, alpha, beta, maximizingPlayer):
@@ -178,8 +178,15 @@ class ABPruningAI:
         # fail-soft alpha-beta
         if(depth == 0 or State.game_over(current_node.board)):
             O_score, X_score = State.evaluate(current_node.board)
-            return X_score - O_score
-        
+            if X_score > 5000 and O_score < 5000: # AI has Right to Attack
+                return X_score - O_score + 1004
+            elif X_score > 5000 and O_score > 5000: # Both has Right to Attack
+                return X_score - O_score
+            elif X_score < 5000 and O_score > 5000: # opponents have Right to Attack
+                return X_score - O_score - 1004
+            elif X_score < 5000 and O_score < 5000: # No one has Right to Attack
+                return X_score - O_score
+
         if maximizingPlayer:
             value = -infinity
             child_nodes = current_node.generate_child_nodes()
