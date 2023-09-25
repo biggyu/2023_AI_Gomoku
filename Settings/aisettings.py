@@ -2,7 +2,7 @@ from math import inf as infinity
 from Settings.gamesettings import X, O, EMPTY
 
 # ALPHA BETA PRUNING SETTINGS
-MAX_TREE_DEPTH_LEVEL = 2
+MAX_TREE_DEPTH_LEVEL = 4
 EXPANSION_RANGE = 2 # FOR GENERATING POSSIBLE MOVES
 
 

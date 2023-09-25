@@ -149,7 +149,25 @@ class State:
         """
 
         possible_moves = set()  # Using a set to avoid duplicates
-        expr = expansion_range
+
+        if expansion_range == 0:
+            possible_moves = []
+            if (board == game_settings.EMPTY_BOARD):
+                for r in range(0, game_settings.BOARD_ROW_COUNT):
+                    for c in range(0, game_settings.BOARD_COL_COUNT):
+                        possible_moves.append((r, c))
+            else:
+                for r in range(0, game_settings.BOARD_ROW_COUNT):
+                    for c in range(0, game_settings.BOARD_COL_COUNT):
+                        temp_move = board[r][c]
+                        if (temp_move != game_settings.EMPTY):
+                            continue
+                        if not State.has_neighbor((r, c), board, 1):
+                            continue
+                        possible_moves.append((r, c))
+
+            return possible_moves
+
 
         for r in range(game_settings.BOARD_ROW_COUNT):
             for c in range(game_settings.BOARD_COL_COUNT):
@@ -161,45 +179,21 @@ class State:
 
         return list(possible_moves)
 
-        """
-        possible_moves = []
-        if(board == game_settings.EMPTY_BOARD):
-            for r in range(0, game_settings.BOARD_ROW_COUNT):
-                for c in range(0, game_settings.BOARD_COL_COUNT):
-                    possible_moves.append((r, c))
-        else:
-            for r in range(0, game_settings.BOARD_ROW_COUNT):
-                for c in range(0, game_settings.BOARD_COL_COUNT):
-                    temp_move = board[r][c]
-                    if(temp_move != game_settings.EMPTY):
-                        continue
-                    if not State.has_neighbor((r, c), board, expansion_range):
-                        continue
-                    possible_moves.append((r, c))
-
-        return possible_moves
-        """
-
     def get_neighbors(move_position):
         """
         Returns direct neighbors for a given position.
         """
         move_r, move_c = move_position
 
-        # The 8 potential neighbors
+        # The 16 potential neighbors
         potential_neighbors = [
+            (move_r - 2, move_c - 2), (move_r - 2, move_c), (move_r - 2, move_c + 2),
             (move_r - 1, move_c - 1), (move_r - 1, move_c), (move_r - 1, move_c + 1),
-            (move_r, move_c - 1), (move_r, move_c + 1),
-            (move_r + 1, move_c - 1), (move_r + 1, move_c), (move_r + 1, move_c + 1)
+            (move_r, move_c - 2), (move_r, move_c - 1), (move_r, move_c + 1), (move_r, move_c + 2),
+            (move_r + 1, move_c - 1), (move_r + 1, move_c), (move_r + 1, move_c + 1),
+            (move_r + 2, move_c - 2), (move_r + 2, move_c), (move_r + 2, move_c + 2)
         ]
         return potential_neighbors
-
-    def is_valid_move(move_position, board):
-        """
-        Check if a move is within the boundaries of the board.
-        """
-        r, c = move_position
-        return 0 <= r < game_settings.BOARD_ROW_COUNT and 0 <= c < game_settings.BOARD_COL_COUNT
 
     def has_neighbor(move_position, board, expansion_range):
         """
